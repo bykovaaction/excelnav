@@ -342,6 +342,28 @@ body::before {
   .format-block-right { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 20px; width: 100%; }
   .container { padding: 36px 16px 60px; }
 }
+.format-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.format-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px 12px;
+}
+
+.format-icon {
+  font-size: 16px;
+}
 </style>
 </head>
 <body>
@@ -374,23 +396,24 @@ body::before {
 
     <div class="result-grid" id="results"></div>
 
-    <div class="format-block">
-      <div style="flex:1">
-        <div class="format-block-label">Формат каждого мастер-класса</div>
-        <h3>Смотрите, скачивайте, применяйте сразу</h3>
-        <div class="format-pills">
-          <div class="pill">Видео 2–5 минут</div>
-          <div class="pill">Готовый Excel-файл</div>
-          <div class="pill">Разбор формул</div>
-          <div class="pill">Практические примеры</div>
-        </div>
-      </div>
-      <div class="format-block-right">
-        <div class="format-big-num" id="mc-count">—</div>
-        <div class="format-big-label">мастер-класса<br>в разделе</div>
-      </div>
-    </div>
+    <div class="format-items">
+  <div class="format-item">
+    <span class="format-icon">🎥</span>
+    <span>Видео 2–5 минут</span>
   </div>
+  <div class="format-item">
+    <span class="format-icon">📊</span>
+    <span>Готовый Excel-файл</span>
+  </div>
+  <div class="format-item">
+    <span class="format-icon">📝</span>
+    <span>Разбор формул</span>
+  </div>
+  <div class="format-item">
+    <span class="format-icon">⚡</span>
+    <span>Практические примеры</span>
+  </div>
+</div>
 
 </div>
 
