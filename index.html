@@ -385,36 +385,28 @@ body::before {
   <div id="screen-1" class="grid"></div>
 
   <div id="screen-2" class="hidden">
-    <button class="back-btn" onclick="goBack()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Все направления
-    </button>
-    <div class="s2-title" id="s2-title"></div>
-    <div class="s2-subtitle" id="s2-subtitle"></div>
+  <button class="back-btn" onclick="goBack()">…</button>
+  <div class="s2-title" id="s2-title"></div>
+  <div class="s2-subtitle" id="s2-subtitle"></div>
 
-    <div class="result-grid" id="results"></div>
+  <div class="result-grid" id="results"></div>
 
-    <div class="format-items">
-  <div class="format-item">
-    <span class="format-icon">🎥</span>
-    <span>Видео 2–5 минут</span>
+  <div class="format-block">
+    <div style="flex:1">
+      <div class="format-block-label">Формат мастер-класса</div>
+      <h3>Смотрите и применяйте сразу</h3>
+      <div class="format-items">
+        <div class="format-item"><span class="format-icon">🎥</span>Видео 2–5 минут</div>
+        <div class="format-item"><span class="format-icon">📊</span>Готовый Excel-файл</div>
+        <div class="format-item"><span class="format-icon">📝</span>Разбор формул</div>
+        <div class="format-item"><span class="format-icon">⚡</span>Практические примеры</div>
+      </div>
+    </div>
+    <div class="format-block-right">
+      <div class="format-big-num" id="mc-count">—</div>
+      <div class="format-big-label">мастер-класса<br>в разделе</div>
+    </div>
   </div>
-  <div class="format-item">
-    <span class="format-icon">📊</span>
-    <span>Готовый Excel-файл</span>
-  </div>
-  <div class="format-item">
-    <span class="format-icon">📝</span>
-    <span>Разбор формул</span>
-  </div>
-  <div class="format-item">
-    <span class="format-icon">⚡</span>
-    <span>Практические примеры</span>
-  </div>
-</div>
-
 </div>
 
 <script>
