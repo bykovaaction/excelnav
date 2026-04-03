@@ -412,7 +412,7 @@ body::before {
 <script>
 const data = [
   { title:"Ускорить Excel и навести порядок в файлах", icon:"⚡", desc:"Медленная работа, нестабильные таблицы, тяжелые файлы", results:[
-      {name:"Техника работы с файлами", text:"Файлы перестают ломаться и теряться", url:"#"},
+      {name:"Техника работы с файлами", text:"Файлы перестают ломаться и теряться", url:"https://1fd.ru/#/document/16/136947/", videos:"37 видео"},
       {name:"Настройка Excel", text:"Excel работает быстрее", url:"#"},
       {name:"Большие таблицы", text:"Удобная работа с объемными данными", url:"#"}
     ]
@@ -506,7 +506,7 @@ function showScreen2(item){
     rc.className = "result-card";
     rc.style.animationDelay = `${idx*0.05}s`;
     rc.innerHTML = `
-      <div class="result-card-num">${idx+1}</div>
+      <div class="result-card-num">${res.videos}</div>
       <h3>${res.name}</h3>
       <div class="result-card-outcome">${res.text}</div>
       <div class="result-card-cta" onclick="window.open('${res.url}', '_blank')">Смотреть</div>
