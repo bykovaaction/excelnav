@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Navigator — CFO Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111118;
+  --ink-2: #2c2c36;
+  --ink-3: #5c5c6a;
+  --surface: #f7f7f5;
+  --card-bg: #ffffff;
+  --accent: #3c3cdc;
+  --accent-light: #ededff;
+  --border: #e4e4ea;
+  --border-hover: #b8b8d8;
+  --radius: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(60,60,220,0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HEADER ── */
+.header { margin-bottom: 48px; }
+
+.header-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.header-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-2);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.header-meta {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.header-meta-item {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.header-meta-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border-hover);
+  flex-shrink: 0;
+}
+
+/* ── SCREEN 1 ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 6px 24px rgba(60,60,220,0.07), 0 2px 6px rgba(0,0,0,0.03);
+  transform: translateY(-2px);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-icon { font-size: 20px; line-height: 1; }
+
+.card-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+/* ── SCREEN 2 ── */
+#screen-2 { animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  cursor: pointer;
+  margin-bottom: 28px;
+  border: none;
+  background: none;
+  padding: 0;
+  transition: color 0.15s;
+  font-family: inherit;
+}
+
+.back-btn:hover { color: var(--accent); }
+.back-btn svg { transition: transform 0.15s; }
+.back-btn:hover svg { transform: translateX(-3px); }
+
+.s2-title {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.s2-subtitle {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin-bottom: 28px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.result-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cardIn 0.35s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 6px 20px rgba(60,60,220,0.06);
+  transform: translateY(-2px);
+}
+
+@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+
+.result-card-num {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.result-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.result-card-outcome {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  flex-grow: 1;
+  padding-left: 10px;
+  border-left: 2px solid var(--accent-light);
+}
+
+.result-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 2px;
+  transition: gap 0.15s, transform 0.15s;
+}
+
+.result-card:hover .result-card-cta { gap: 8px; transform: translateX(2px); }
+
+/* ── Format block ── */
+.format-block {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.format-block-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.format-block h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.format-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.pill {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+  background: var(--surface);
+}
+
+.format-block-right {
+  text-align: center;
+  border-left: 1px solid var(--border);
+  padding-left: 28px;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.format-big-num {
+  font-size: 46px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.format-big-label {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.hidden { display: none !important; }
+
+@media(max-width: 580px) {
+  .format-block { flex-direction: column; gap: 20px; }
+  .format-block-right { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 20px; width: 100%; }
+  .container { padding: 36px 16px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-eyebrow">Excel для финансистов</div>
+    <h1>Найдите решение<br>для вашей задачи</h1>
+    <p class="header-sub">Выберите проблему — и получите подходящие мастер-классы с видео и готовыми файлами.</p>
+    <div class="header-meta">
+      <div class="header-meta-item">9 направлений</div>
+      <div class="header-meta-sep"></div>
+      <div class="header-meta-item">31 мастер-класс</div>
+      <div class="header-meta-sep"></div>
+      <div class="header-meta-item">Для CFO и финансовых менеджеров</div>
+    </div>
+  </div>
+
+  <div id="screen-1" class="grid"></div>
+
+  <div id="screen-2" class="hidden">
+    <button class="back-btn" onclick="goBack()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Все направления
+    </button>
+    <div class="s2-title" id="s2-title"></div>
+    <div class="s2-subtitle" id="s2-subtitle"></div>
+
+    <div class="result-grid" id="results"></div>
+
+    <div class="format-block">
+      <div style="flex:1">
+        <div class="format-block-label">Формат каждого мастер-класса</div>
+        <h3>Смотрите, скачивайте, применяйте сразу</h3>
+        <div class="format-pills">
+          <div class="pill">Видео 2–5 минут</div>
+          <div class="pill">Готовый Excel-файл</div>
+          <div class="pill">Разбор формул</div>
+          <div class="pill">Практические примеры</div>
+        </div>
+      </div>
+      <div class="format-block-right">
+        <div class="format-big-num" id="mc-count">—</div>
+        <div class="format-big-label">мастер-класса<br>в разделе</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { title:"Файлы тормозят и «едут»", icon:"⚡", desc:"Медленная работа, нестабильные таблицы, тяжёлые файлы", results:[
+      {name:"Техника работы с файлами", text:"Файлы перестают ломаться и теряться"},
+      {name:"Настройка Excel", text:"Среда работает быстро и предсказуемо"},
+      {name:"Большие таблицы", text:"Комфортная работа с объёмными данными"}
+    ]
+  },
+  { title:"Контроль и защита данных", icon:"🛡️", desc:"Данные не защищены, чужие изменения портят расчёты", results:[
+      {name:"Защита данных", text:"Исключаете несанкционированные правки"},
+      {name:"Проверка данных", text:"Предотвращаете ошибки ввода на этапе заполнения"}
+    ]
+  },
+  { title:"Грязные данные из разных источников", icon:"📂", desc:"Дубли, нестандартные форматы, текст вместо чисел", results:[
+      {name:"Импорт и экспорт", text:"Загружаете данные из любых источников без сбоев"},
+      {name:"Преобразование данных", text:"Быстро приводите данные к нужному формату"},
+      {name:"Работа с текстом", text:"Очищаете текстовые поля за секунды"},
+      {name:"Удаление повторов", text:"Убираете дубли в любых объёмах"},
+      {name:"Фильтры и сортировка", text:"Находите нужные строки мгновенно"}
+    ]
+  },
+  { title:"Рутина каждый месяц", icon:"🔁", desc:"Одни и те же действия — вручную, снова и снова", results:[
+      {name:"Power Query", text:"Автоматизируете полный цикл обработки данных"},
+      {name:"Генерация данных", text:"Excel сам формирует нужные комбинации"}
+    ]
+  },
+  { title:"Анализ данных", icon:"📊", desc:"Сложно быстро понять, что стоит за цифрами", results:[
+      {name:"Сводные таблицы", text:"Анализируете любые показатели за минуты"},
+      {name:"Функции поиска", text:"Находите и сопоставляете данные из разных таблиц"},
+      {name:"Выпадающие списки", text:"Создаёте интерактивные элементы управления"}
+    ]
+  },
+  { title:"Формулы и расчёты", icon:"🧮", desc:"Формулы ломаются, результаты вызывают сомнения", results:[
+      {name:"Правила работы с формулами", text:"Пишете корректные формулы с первого раза"},
+      {name:"Ошибки в Excel", text:"Находите и исправляете ошибки быстро"},
+      {name:"Суммирование", text:"Считаете простые суммы и суммы с условиями"},
+      {name:"Средние значения", text:"Корректные средние для любых задач"},
+      {name:"Минимум и максимум", text:"Определяете пиковые значения и границы"},
+      {name:"Проценты", text:"Безошибочные процентные расчёты"},
+      {name:"Даты и периоды", text:"Считаете любые временные интервалы"},
+      {name:"Время", text:"Работаете с часами, минутами и сменами"}
+    ]
+  },
+  { title:"Финансовое моделирование", icon:"💰", desc:"Кредиты, инвестиции, амортизация — в Excel", results:[
+      {name:"Кредиты и депозиты", text:"Рассчитываете проценты и графики выплат"},
+      {name:"Инвестпроекты", text:"Оцениваете эффективность: NPV, IRR, срок окупаемости"},
+      {name:"Амортизация", text:"Корректно учитываете активы по всем методам"}
+    ]
+  },
+  { title:"Планирование и прогнозы", icon:"📅", desc:"Прогнозы, план-факт, сценарный анализ", results:[
+      {name:"Прогнозы", text:"Строите финансовые модели на основе данных"},
+      {name:"План-факт анализ", text:"Контролируете выполнение показателей в динамике"},
+      {name:"Сценарный анализ", text:"Моделируете оптимистичный, базовый и пессимистичный сценарии"}
+    ]
+  },
+  { title:"Отчёты и визуализация", icon:"📈", desc:"Руководство не понимает таблицы, данные теряются", results:[
+      {name:"Визуализация отчётов", text:"Делаете отчёты понятными без лишних объяснений"},
+      {name:"Графики и диаграммы", text:"Данные говорят сами за себя"},
+      {name:"Условное форматирование", text:"Ключевые показатели видны с первого взгляда"}
+    ]
+  }
+];
+
+const s1 = document.getElementById("screen-1");
+const s2 = document.getElementById("screen-2");
+const resultsDiv = document.getElementById("results");
+const s2Title = document.getElementById("s2-title");
+const s2Subtitle = document.getElementById("s2-subtitle");
+const mcCount = document.getElementById("mc-count");
+
+data.forEach((item,i)=>{
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="card-icon">${item.icon}</div>
+      <div class="card-count">${item.results.length}</div>
+    </div>
+    <div class="card-title">${item.title}</div>
+    <div class="card-desc">${item.desc}</div>
+  `;
+  card.onclick = ()=>showScreen2(item);
+  s1.appendChild(card);
+});
+
+function showScreen2(item){
+  s1.classList.add("hidden");
+  s2.classList.remove("hidden");
+  s2Title.textContent = item.title;
+  s2Subtitle.textContent = item.desc;
+  resultsDiv.innerHTML = "";
+  mcCount.textContent = item.results.length;
+  item.results.forEach((res,idx)=>{
+    const rc = document.createElement("div");
+    rc.className = "result-card";
+    rc.style.animationDelay = `${idx*0.05}s`;
+    rc.innerHTML = `
+      <div class="result-card-num">${idx+1}</div>
+      <h3>${res.name}</h3>
+      <div class="result-card-outcome">${res.text}</div>
+      <div class="result-card-cta">Смотреть</div>
+    `;
+    resultsDiv.appendChild(rc);
+  });
+}
+
+function goBack(){
+  s2.classList.add("hidden");
+  s1.classList.remove("hidden");
+}
+</script>
+</body>
+</html>
