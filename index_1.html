@@ -137,6 +137,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 2px;
+  position: relative;
 }
 
 .card {
@@ -250,6 +251,7 @@ body {
   overflow-x: hidden;
   padding-right: 2px;
   align-content: start;
+  position: relative;
 }
 
 .result-card {
@@ -408,6 +410,24 @@ body {
   margin-top: -18px;
   background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0));
 }
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--ink-3);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.scroll-hint.top {
+  top: 4px;
+}
+
+.scroll-hint.bottom {
+  bottom: 4px;
+}
 </style>
 </head>
 <body>
@@ -427,7 +447,10 @@ body {
 
   <main class="layout">
     <section class="panel left-panel" aria-label="Направления">
-      <div id="screen-1" class="grid fade-scroll" role="list"></div>
+      <div id="screen-1" class="grid fade-scroll" role="list">
+        <div class="scroll-hint top">⌃</div>
+  <div class="scroll-hint bottom">⌄</div>
+      </div>
     </section>
 
     <section class="panel right-panel" aria-live="polite">
@@ -566,7 +589,10 @@ function renderRight(item) {
   s2Subtitle.textContent = item.desc;
   mcCount.textContent = item.results.length;
   resultsCount.textContent = `${item.results.length} материалов`;
-  resultsDiv.innerHTML = '';
+resultsDiv.innerHTML = `
+  <div class="scroll-hint top">⌃</div>
+  <div class="scroll-hint bottom">⌄</div>
+`;
 
   item.results.forEach((res) => {
     const card = document.createElement('a');
