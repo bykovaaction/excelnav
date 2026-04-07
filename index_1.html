@@ -135,6 +135,7 @@ body {
   gap: 6px;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 2px;
 }
 
@@ -246,6 +247,7 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 2px;
   align-content: start;
 }
@@ -379,6 +381,33 @@ body {
     transition: none !important;
   }
 }
+.fade-scroll {
+  position: relative;
+}
+
+.fade-scroll::before,
+.fade-scroll::after {
+  content: '';
+  position: sticky;
+  left: 0;
+  right: 0;
+  height: 18px;
+  pointer-events: none;
+  display: block;
+  z-index: 3;
+}
+
+.fade-scroll::before {
+  top: 0;
+  margin-bottom: -18px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.96), rgba(255,255,255,0));
+}
+
+.fade-scroll::after {
+  bottom: 0;
+  margin-top: -18px;
+  background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0));
+}
 </style>
 </head>
 <body>
@@ -398,7 +427,7 @@ body {
 
   <main class="layout">
     <section class="panel left-panel" aria-label="Направления">
-      <div id="screen-1" class="grid" role="list"></div>
+      <div id="screen-1" class="grid fade-scroll" role="list"></div>
     </section>
 
     <section class="panel right-panel" aria-live="polite">
@@ -411,7 +440,7 @@ body {
         <div class="results-count" id="results-count">—</div>
       </div>
 
-      <div class="result-grid" id="results"></div>
+      <div class="result-grid fade-scroll" id="results"></div>
 
       <div class="format-block" aria-label="Формат мастер-класса">
         <div>
