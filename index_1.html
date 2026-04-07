@@ -125,6 +125,11 @@ body::before {
   min-height: 0;
 }
 
+.left-panel {
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 /* ── LEFT COLUMN ── */
 .grid {
   display: grid;
@@ -192,9 +197,9 @@ body::before {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 .s2-title {
-  font-size: clamp(21px, 2.4vw, 28px);
+  font-size: clamp(17px, 2vw, 22px);
   font-weight: 600;
-  color: var(--ink);
+  color: var(--accent);
   margin-bottom: 4px;
 }
 
@@ -431,13 +436,13 @@ const data = [
   },
   { title:"Автоматизировать посторяющиеся задачи", icon:"🔁", desc:"Много одинаковых действий, которые отнимают время", results:[
       {name:"Power Query", text:"Автоматизируете обработку данных", url:"https://1fd.ru/#/document/16/202623/",videos:"5 видео"},
-      {name:"Генерация данных", text:"Автоматически генерируете данные ", url:"https://1fd.ru/#/document/16/202714/",videos:"4 видео"}
+      {name:"Генерация данных", text:"Автоматически генерируете данные ", url:"https://1fd.ru/#/document/16/202714/",videos:"4 видео"}
     ]
   },
   { title:"Проанализировать данные", icon:"📊", desc:"Сложно быстро понять, что стоит за цифрами", results:[
       {name:"Сводные таблицы", text:"Анализируете любые показатели за минуты", url:"https://1fd.ru/#/document/16/127765/",videos:"47 видео"},
       {name:"Функции поиска", text:"Находите и сопоставляете данные из разных таблиц", url:"https://1fd.ru/#/document/16/125337/",videos:"18 видео"},
-      {name:"Выпадающие списки", text:"Создаете выпадающие списки для быстрой работы", url:"https://1fd.ru/#/document/16/125130/",videos:"19 видео"}
+      {name:"Выпадающие списки", text:"Создаете выпадающие списки для быстрой работы", url:"https://1fd.ru/#/document/16/125130/",videos:"19 видео"}
     ]
   },
   { title:"Рассчитать показатели", icon:"🧮", desc:"Формулы ломаются, результаты вызывают сомнения", results:[
