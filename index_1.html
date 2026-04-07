@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Navigator — CFO Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111118;
+  --ink-2: #2c2c36;
+  --ink-3: #5c5c6a;
+  --surface: #f7f7f5;
+  --card-bg: #ffffff;
+  --accent: #3c3cdc;
+  --accent-light: #ededff;
+  --border: #e4e4ea;
+  --border-hover: #b8b8d8;
+  --radius: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(60,60,220,0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 734px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  position: relative;
+  z-index: 1;
+  height: 750px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ── */
+.header { margin-bottom: 16px; }
+
+.header-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.header-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-2);
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.header-meta {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.header-meta-item {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.header-meta-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border-hover);
+  flex-shrink: 0;
+}
+
+/* ── ONE SCREEN LAYOUT ── */
+.layout {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+.panel {
+  min-height: 0;
+}
+
+/* ── LEFT COLUMN ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  overflow: hidden;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 12px;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.card.active {
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(60,60,220,0.12);
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 6px 24px rgba(60,60,220,0.07), 0 2px 6px rgba(0,0,0,0.03);
+  transform: translateY(-2px);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.card-icon { font-size: 16px; line-height: 1; }
+
+.card-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+/* ── RIGHT COLUMN ── */
+.right-panel { display: flex; flex-direction: column; min-height: 0; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.s2-title {
+  font-size: clamp(21px, 2.4vw, 28px);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.s2-subtitle {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+  flex: 1;
+}
+
+.result-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 10px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cardIn 0.35s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.result-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 6px 20px rgba(60,60,220,0.06);
+  transform: translateY(-2px);
+}
+
+@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+
+.result-card-num {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.result-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.result-card-outcome {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  flex-grow: 1;
+  padding-left: 8px;
+  border-left: 2px solid var(--accent-light);
+}
+
+.result-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 2px;
+  transition: gap 0.15s, transform 0.15s;
+}
+
+.result-card:hover .result-card-cta { gap: 8px; transform: translateX(2px); }
+
+/* ── Format block ── */
+.format-block {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.format-block-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.format-block h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.format-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.pill {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+  background: var(--surface);
+}
+
+.format-block-right {
+  text-align: center;
+  border-left: 1px solid var(--border);
+  padding-left: 10px;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.format-big-num {
+  font-size: 34px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.format-big-label {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.format-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.format-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+
+.format-icon {
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-eyebrow">Excel для финансистов</div>
+    <h1>Найдите решение для вашей задачи</h1>
+    <p class="header-sub">Выберите направление — и получите подходящие мастер-классы по работе в Excel с короткими видео и готовыми файлами.</p>
+    <div class="header-meta">
+      <div class="header-meta-item">9 направлений</div>
+      <div class="header-meta-sep"></div>
+      <div class="header-meta-item">31 мастер-класс</div>
+      <div class="header-meta-sep"></div>
+      <div class="header-meta-item">Для CFO и финансовых менеджеров</div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="panel left-panel">
+      <div id="screen-1" class="grid"></div>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="s2-title" id="s2-title"></div>
+      <div class="s2-subtitle" id="s2-subtitle"></div>
+
+      <div class="result-grid" id="results"></div>
+
+      <div class="format-block">
+        <div style="flex:1">
+          <div class="format-block-label">Формат мастер-класса</div>
+          <h3>Смотрите и применяйте сразу</h3>
+          <div class="format-items">
+            <div class="format-item"><span class="format-icon">🎥</span>Видео 2–5 минут</div>
+            <div class="format-item"><span class="format-icon">📊</span>Готовый Excel-файл</div>
+            <div class="format-item"><span class="format-icon">📝</span>Разбор формул</div>
+            <div class="format-item"><span class="format-icon">⚡</span>Практические примеры</div>
+          </div>
+        </div>
+        <div class="format-block-right">
+          <div class="format-big-num" id="mc-count">—</div>
+          <div class="format-big-label">мастер-класса<br>в разделе</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = [
+  { title:"Ускорить Excel и навести порядок в файлах", icon:"⚡", desc:"Медленная работа, нестабильные таблицы, тяжелые файлы", results:[
+      {name:"Техника работы с файлами", text:"Файлы перестают ломаться и теряться", url:"https://1fd.ru/#/document/16/136947/", videos:"37 видео"},
+      {name:"Настройка Excel", text:"Excel работает быстрее", url:"https://1fd.ru/#/document/16/189806/",videos:"25 видео"},
+      {name:"Большие таблицы", text:"Удобная работа с объемными данными", url:"https://1fd.ru/#/document/16/128449/",videos:"26 видео"}
+    ]
+  },
+  { title:"Контролировать и защищать данные", icon:"🛡️", desc:"Данные не защищены, чужие изменения портят расчеты", results:[
+      {name:"Защита данных", text:"Исключаете несанкционированные правки", url:"https://1fd.ru/#/document/16/127083/",videos:"18 видео"},
+      {name:"Проверка данных", text:"Предотвращаете ошибки ввода", url:"https://1fd.ru/#/document/16/202603/",videos:"16 видео"}
+    ]
+  },
+  { title:"Подготовить и очистить данные", icon:"📂", desc:"Дубли, некорректные форматы, текст вместо чисел", results:[
+      {name:"Импорт и экспорт", text:"Загружаете данные из любых источников без сбоев", url:"https://1fd.ru/#/document/16/136741/",videos:"17 видео"},
+      {name:"Преобразование данных", text:"Быстро приводите данные к нужному формату", url:"https://1fd.ru/#/document/16/127964/",videos:"38 видео"},
+      {name:"Работа с текстом", text:"Очищаете и преобразуете текстовые данные", url:"https://1fd.ru/#/document/16/136535/",videos:"35 видео"},
+      {name:"Удаление повторов", text:"Убираете дубли в любых объемах", url:"https://1fd.ru/#/document/16/126496/",videos:"8 видео"},
+      {name:"Фильтры и сортировка", text:"Находите нужные строки мгновенно", url:"https://1fd.ru/#/document/16/126123/",videos:"16 видео"}
+    ]
+  },
+  { title:"Автоматизировать посторяющиеся задачи", icon:"🔁", desc:"Много одинаковых действий, которые отнимают время", results:[
+      {name:"Power Query", text:"Автоматизируете обработку данных", url:"https://1fd.ru/#/document/16/202623/",videos:"5 видео"},
+      {name:"Генерация данных", text:"Автоматически генерируете данные ", url:"https://1fd.ru/#/document/16/202714/",videos:"4 видео"}
+    ]
+  },
+  { title:"Проанализировать данные", icon:"📊", desc:"Сложно быстро понять, что стоит за цифрами", results:[
+      {name:"Сводные таблицы", text:"Анализируете любые показатели за минуты", url:"https://1fd.ru/#/document/16/127765/",videos:"47 видео"},
+      {name:"Функции поиска", text:"Находите и сопоставляете данные из разных таблиц", url:"https://1fd.ru/#/document/16/125337/",videos:"18 видео"},
+      {name:"Выпадающие списки", text:"Создаете выпадающие списки для быстрой работы", url:"https://1fd.ru/#/document/16/125130/",videos:"19 видео"}
+    ]
+  },
+  { title:"Рассчитать показатели", icon:"🧮", desc:"Формулы ломаются, результаты вызывают сомнения", results:[
+      {name:"Правила работы с формулами", text:"Пишете корректные формулы с первого раза", url:"https://1fd.ru/#/document/16/126895/",videos:"43 видео"},
+      {name:"Ошибки в Excel", text:"Быстро находите и исправляете ошибки", url:"https://1fd.ru/#/document/16/188998/",videos:"12 видео"},
+      {name:"Суммирование", text:"Считаете простые суммы и суммы с условиями", url:"https://1fd.ru/#/document/16/124898/",videos:"27 видео"},
+      {name:"Средние значения", text:"Корректные средние для любых задач", url:"https://1fd.ru/#/document/16/125435/",videos:"14 видео"},
+      {name:"Минимум и максимум", text:"Определяете пиковые значения и границы", url:"https://1fd.ru/#/document/16/128995/",videos:"7 видео"},
+      {name:"Проценты", text:"Корректно считаете проценты", url:"https://1fd.ru/#/document/16/127560/",videos:"16 видео"},
+      {name:"Даты и периоды", text:"Считаете любые временные интервалы", url:"https://1fd.ru/#/document/16/124731/",videos:"47 видео"},
+      {name:"Время", text:"Работаете с часами, минутами и производите с ними расчеты", url:"https://1fd.ru/#/document/16/128221/",videos:"7 видео"}
+    ]
+  },
+  { title:"Провести финансовые расчеты", icon:"💰", desc:"Кредиты, инвестиции, амортизация — в Excel", results:[
+      {name:"Кредиты и депозиты", text:"Рассчитываете проценты и графики выплат", url:"https://1fd.ru/#/document/16/129233/",videos:"5 видео"},
+      {name:"Инвестпроекты", text:"Оцениваете эффективность: NPV, IRR, срок окупаемости", url:"https://1fd.ru/#/document/16/202688/",videos:"6 видео"},
+      {name:"Амортизация", text:"Корректно учитываете активы по всем методам", url:"https://1fd.ru/#/document/16/126255/",videos:"3 видео"}
+    ]
+  },
+  { title:"Спланировать и составить прогнозы", icon:"📅", desc:"Прогнозы, план-факт, сценарный анализ", results:[
+      {name:"Прогнозы", text:"Строите финансовые модели на основе данных", url:"https://1fd.ru/#/document/16/126723/",videos:"13 видео"},
+      {name:"План-факт анализ", text:"Контролируете выполнение показателей в динамике", url:"https://1fd.ru/#/document/16/127295/",videos:"19 видео"},
+      {name:"Сценарный анализ", text:"Моделируете оптимистичный, базовый и пессимистичный сценарии", url:"https://1fd.ru/#/document/16/128714/",videos:"10 видео"}
+    ]
+  },
+  { title:"Создать понятный отчет", icon:"📈", desc:"Руководство не понимает таблицы, данные теряются", results:[
+      {name:"Визуализация отчетов", text:"Делаете отчеты понятными", url:"https://1fd.ru/#/document/16/129697/",videos:"28 видео"},
+      {name:"Графики и диаграммы", text:"Наглядно показываете данные", url:"https://1fd.ru/#/document/16/138163/",videos:"64 видео"},
+      {name:"Условное форматирование", text:"Выделяете ключевые показатели", url:"https://1fd.ru/#/document/16/183155/",videos:"27 видео"}
+    ]
+  }
+];
+
+const s1 = document.getElementById("screen-1");
+const resultsDiv = document.getElementById("results");
+const s2Title = document.getElementById("s2-title");
+const s2Subtitle = document.getElementById("s2-subtitle");
+const mcCount = document.getElementById("mc-count");
+let activeCard = null;
+
+data.forEach((item,i)=>{
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="card-icon">${item.icon}</div>
+      <div class="card-count">${item.results.length}</div>
+    </div>
+    <div class="card-title">${item.title}</div>
+    <div class="card-desc">${item.desc}</div>
+  `;
+  card.onclick = ()=>showScreen2(item, card);
+  if(i === 0){
+    card.classList.add("active");
+    activeCard = card;
+  }
+  s1.appendChild(card);
+});
+
+showScreen2(data[0], activeCard);
+
+function showScreen2(item, selectedCard){
+  if(activeCard){
+    activeCard.classList.remove("active");
+  }
+  if(selectedCard){
+    selectedCard.classList.add("active");
+    activeCard = selectedCard;
+  }
+  s2Title.textContent = item.title;
+  s2Subtitle.textContent = item.desc;
+  resultsDiv.innerHTML = "";
+  mcCount.textContent = item.results.length;
+  item.results.forEach((res,idx)=>{
+    const rc = document.createElement("div");
+    rc.className = "result-card";
+    rc.style.animationDelay = `${idx*0.05}s`;
+    rc.innerHTML = `
+      <div class="result-card-num">${res.videos}</div>
+      <h3>${res.name}</h3>
+      <div class="result-card-outcome">${res.text}</div>
+      <div class="result-card-cta" onclick="window.open('${res.url}', '_blank')">Смотреть</div>
+    `;
+    resultsDiv.appendChild(rc);
+  });
+}
+</script>
+</body>
+</html>
