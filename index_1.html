@@ -409,9 +409,7 @@ padding-bottom: 20px;
   margin-top: -18px;
   background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0));
 }
-  
-.fade-scroll::before
-.fade-scroll::after
+
   
 .scroll-area {
   position: relative;
@@ -549,7 +547,7 @@ const s1 = document.getElementById('screen-1');
 const resultsDiv = document.getElementById('results');
 const s2Title = document.getElementById('s2-title');
 const s2Subtitle = document.getElementById('s2-subtitle');
-const mcCount = document.getElementById('mc-count');
+
 const resultsCount = document.getElementById('results-count');
 let activeCard = null;
 
@@ -584,8 +582,8 @@ function renderCards() {
 function renderRight(item) {
   s2Title.textContent = item.title;
   s2Subtitle.textContent = item.desc;
-  mcCount.textContent = item.results.length;
-  resultsCount.textContent = `Колиечество мастер-классов: ${item.results.length}`;
+ 
+  resultsCount.textContent = `Количество мастер-классов: ${item.results.length}`;
 resultsDiv.innerHTML = '';
 
   item.results.forEach((res) => {
