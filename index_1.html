@@ -409,26 +409,10 @@ padding-bottom: 20px;
   margin-top: -18px;
   background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0));
 }
-
-.scroll-hint {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px;
-  color: var(--accent);
-  opacity: 0.8;
-  pointer-events: none;
-  z-index: 6;
-  text-shadow: 0 1px 3px rgba(61, 76, 219, 0.2);
-}
-
-.scroll-hint.top {
-  top: 10px;
-}
-
-.scroll-hint.bottom {
-  bottom: 10px;
-}
+  
+.fade-scroll::before
+.fade-scroll::after
+  
 .scroll-area {
   position: relative;
   min-height: 0;
@@ -462,10 +446,8 @@ padding-bottom: 20px;
 
   <main class="layout">
     <section class="panel left-panel" aria-label="Направления">
-      <div class="scroll-area">
-  <div class="scroll-hint top">↑</div>
+     <div class="scroll-area">
   <div id="screen-1" class="grid fade-scroll" role="list"></div>
-  <div class="scroll-hint bottom">↓</div>
 </div>
     </section>
 
@@ -479,10 +461,8 @@ padding-bottom: 20px;
         <div class="results-count" id="results-count">—</div>
       </div>
 
-     <div class="scroll-area scroll-area-results fade-scroll">
-  <div class="scroll-hint top">↑</div>
-  <div class="result-grid" id="results"></div>
-  <div class="scroll-hint bottom">↓</div>
+     <div class="scroll-area scroll-area-results">
+  <div class="result-grid fade-scroll" id="results"></div>
 </div>
 
       <div class="format-block" aria-label="Формат мастер-класса">
