@@ -122,9 +122,8 @@ body {
 .right-panel {
   padding: 10px;
   min-height: 0;
-  display: grid;
-  grid-template-rows: auto auto auto auto 1fr auto;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -241,10 +240,11 @@ body {
 .result-grid {
   display: grid;
   gap: 6px;
-  margin-bottom: 7px;
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   padding-right: 2px;
+  align-content: start;
 }
 
 .result-card {
@@ -312,6 +312,7 @@ body {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 6px;
+  margin-top: 8px;
 }
 
 .format-block-label {
