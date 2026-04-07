@@ -243,17 +243,12 @@ padding-bottom: 20px;
   font-size: 11px;
   color: var(--ink-3);
 }
-
 .result-grid {
   display: grid;
   gap: 6px;
-  height: 100%;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 100%;
   padding-right: 2px;
   align-content: start;
-  position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -442,9 +437,11 @@ padding-bottom: 20px;
 }
 
 .scroll-area-results {
+  position: relative;
   flex: 1 1 0;
   min-height: 0;
-  height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>
 </head>
@@ -482,9 +479,9 @@ padding-bottom: 20px;
         <div class="results-count" id="results-count">—</div>
       </div>
 
-     <div class="scroll-area scroll-area-results">
+     <div class="scroll-area scroll-area-results fade-scroll">
   <div class="scroll-hint top">↑</div>
-  <div class="result-grid fade-scroll" id="results"></div>
+  <div class="result-grid" id="results"></div>
   <div class="scroll-hint bottom">↓</div>
 </div>
 
