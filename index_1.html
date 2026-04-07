@@ -316,7 +316,7 @@ padding-bottom: 20px;
   background: #fdfdff;
   padding: 6px 8px;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   gap: 6px;
   margin-top: 8px;
 }
@@ -476,10 +476,7 @@ padding-bottom: 20px;
             <div class="format-item"><span>⚡</span>Практические примеры</div>
           </div>
         </div>
-        <div class="format-block-right">
-          <div class="format-big-num" id="mc-count">—</div>
-          <div class="format-big-label">мастер-класса<br>в разделе</div>
-        </div>
+
       </div>
     </section>
   </main>
@@ -588,7 +585,7 @@ function renderRight(item) {
   s2Title.textContent = item.title;
   s2Subtitle.textContent = item.desc;
   mcCount.textContent = item.results.length;
-  resultsCount.textContent = `${item.results.length} материалов`;
+  resultsCount.textContent = `Колиечество мастер-классов: ${item.results.length}`;
 resultsDiv.innerHTML = '';
 
   item.results.forEach((res) => {
