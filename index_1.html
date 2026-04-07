@@ -228,7 +228,7 @@ padding-bottom: 20px;
 
 .results-header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 0px;
 }
@@ -240,8 +240,13 @@ padding-bottom: 20px;
 }
 
 .results-count {
-  font-size: 11px;
-  color: var(--ink-3);
+  font-size: 10px;
+  color: #6a6f82;
+  background: #f3f5fb;
+  border: 1px solid #e3e7f5;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-weight: 500;
 }
 .result-grid {
   display: grid;
@@ -260,33 +265,33 @@ padding-bottom: 20px;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: #fff;
-  padding: 9px;
+  padding: 12px;
   transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
 .result-card:hover {
-  border-color: #cbd2e6;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(34, 43, 83, 0.06);
+  border-color: #cfd6f6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(61, 76, 219, 0.08);
 }
 
 .result-card-num {
-  font-size: 10px;
-  letter-spacing: .08em;
+  font-size: 9px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: #9aa0b4;
   margin-bottom: 6px;
 }
 
 .result-card h3 {
-  font-size: 12px;
-  line-height: 1.35;
-  margin-bottom: 4px;
+  font-size: 13px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .result-card-outcome {
   font-size: 11px;
+  color: #6f7588;
   line-height: 1.42;
   color: var(--ink-2);
   margin-bottom: 6px;
@@ -296,7 +301,7 @@ padding-bottom: 20px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--accent);
   font-weight: 600;
 }
