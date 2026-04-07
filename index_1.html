@@ -126,7 +126,7 @@ body::before {
 }
 
 .left-panel {
-  overflow-y: auto;
+  overflow-y: scroll;
   padding-right: 4px;
 }
 
@@ -462,7 +462,7 @@ const data = [
       {name:"Амортизация", text:"Корректно учитываете активы по всем методам", url:"https://1fd.ru/#/document/16/126255/",videos:"3 видео"}
     ]
   },
-  { title:"Спланировать и составить прогнозы", icon:"📅", desc:"Прогнозы, план-факт, сценарный анализ", results:[
+  { title:"Спланировать и составить прогнозы", icon:"📅", desc:"Прогнзы, план-факт, сценарный анализ", results:[
       {name:"Прогнозы", text:"Строите финансовые модели на основе данных", url:"https://1fd.ru/#/document/16/126723/",videos:"13 видео"},
       {name:"План-факт анализ", text:"Контролируете выполнение показателей в динамике", url:"https://1fd.ru/#/document/16/127295/",videos:"19 видео"},
       {name:"Сценарный анализ", text:"Моделируете оптимистичный, базовый и пессимистичный сценарии", url:"https://1fd.ru/#/document/16/128714/",videos:"10 видео"}
@@ -481,6 +481,8 @@ const resultsDiv = document.getElementById("results");
 const s2Title = document.getElementById("s2-title");
 const s2Subtitle = document.getElementById("s2-subtitle");
 const mcCount = document.getElementById("mc-count");
+const leftPanel = document.querySelector(".left-panel");
+const rightPanel = document.querySelector(".right-panel");
 let activeCard = null;
 
 data.forEach((item,i)=>{
@@ -494,7 +496,7 @@ data.forEach((item,i)=>{
     <div class="card-title">${item.title}</div>
     <div class="card-desc">${item.desc}</div>
   `;
-  card.onclick = ()=>showScreen2(item, card);
+  card.onclick = ()=>showScreen2(item, card, true);
   if(i === 0){
     card.classList.add("active");
     activeCard = card;
@@ -502,15 +504,12 @@ data.forEach((item,i)=>{
   s1.appendChild(card);
 });
 
-showScreen2(data[0], activeCard);
+setBalancedPanelHeights();
+showScreen2(data[0], activeCard, true);
 
-function showScreen2(item, selectedCard){
+function renderRight(item, withAnimation){
   if(activeCard){
     activeCard.classList.remove("active");
-  }
-  if(selectedCard){
-    selectedCard.classList.add("active");
-    activeCard = selectedCard;
   }
   s2Title.textContent = item.title;
   s2Subtitle.textContent = item.desc;
@@ -519,7 +518,10 @@ function showScreen2(item, selectedCard){
   item.results.forEach((res,idx)=>{
     const rc = document.createElement("div");
     rc.className = "result-card";
-    rc.style.animationDelay = `${idx*0.05}s`;
+    rc.style.animation = withAnimation ? "" : "none";
+    rc.style.opacity = withAnimation ? "" : "1";
+    rc.style.transform = withAnimation ? "" : "none";
+    rc.style.animationDelay = withAnimation ? `${idx*0.05}s` : "0s";
     rc.innerHTML = `
       <div class="result-card-num">${res.videos}</div>
       <h3>${res.name}</h3>
@@ -528,6 +530,24 @@ function showScreen2(item, selectedCard){
     `;
     resultsDiv.appendChild(rc);
   });
+}
+
+function showScreen2(item, selectedCard, withAnimation){
+  if(selectedCard){
+    selectedCard.classList.add("active");
+    activeCard = selectedCard;
+  }
+  renderRight(item, withAnimation);
+}
+
+function setBalancedPanelHeights(){
+  let maxRightHeight = 0;
+  data.forEach((item)=>{
+    renderRight(item, false);
+    maxRightHeight = Math.max(maxRightHeight, rightPanel.scrollHeight);
+  });
+  rightPanel.style.height = `${maxRightHeight}px`;
+  leftPanel.style.height = `${maxRightHeight}px`;
 }
 </script>
 </body>
