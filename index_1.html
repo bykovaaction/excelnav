@@ -16,15 +16,15 @@
   --line-strong: #d5d9e7;
   --accent: #3d4cdb;
   --accent-soft: #eef0ff;
+  --accent-soft-2: #f7f8ff;
   --radius-lg: 16px;
   --radius-md: 12px;
+  --radius-sm: 10px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
@@ -42,10 +42,6 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 8px;
-}
-
-.header {
-  min-height: 0;
 }
 
 .header-eyebrow {
@@ -76,7 +72,7 @@ body {
 }
 
 .header-sub {
-  max-width: 620px;
+  max-width: 660px;
   color: var(--ink-2);
   font-size: 13px;
   line-height: 1.4;
@@ -105,7 +101,7 @@ body {
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(280px, 0.92fr) minmax(0, 1.28fr);
+  grid-template-columns: minmax(300px, 0.98fr) minmax(0, 1.22fr);
   gap: 8px;
   min-height: 0;
 }
@@ -117,9 +113,11 @@ body {
 }
 
 .left-panel {
-  padding: 7px;
+  padding: 10px;
   min-height: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .right-panel {
@@ -130,6 +128,63 @@ body {
   overflow: hidden;
 }
 
+.left-top {
+  margin-bottom: 10px;
+  flex: 0 0 auto;
+}
+
+.left-eyebrow {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.left-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.left-subtitle {
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.segment-btn {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+.segment-btn:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.segment-btn.active {
+  border-color: #c8d0ff;
+  background: #f8f9ff;
+  color: var(--accent);
+}
+
 .grid {
   display: grid;
   gap: 6px;
@@ -138,8 +193,8 @@ body {
   overflow-x: hidden;
   padding-right: 2px;
   position: relative;
-  padding-top: 20px;
-padding-bottom: 20px;
+  padding-top: 8px;
+  padding-bottom: 20px;
 }
 
 .card {
@@ -164,7 +219,9 @@ padding-bottom: 20px;
 }
 
 .card:focus-visible,
-.result-card:focus-visible {
+.result-card:focus-visible,
+.recommended-card:focus-visible,
+.segment-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
@@ -222,15 +279,30 @@ padding-bottom: 20px;
 .s2-subtitle {
   font-size: 12px;
   color: var(--ink-2);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   max-width: 64ch;
+}
+
+.context-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  margin-bottom: 10px;
+  font-size: 10px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid #dde3ff;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-weight: 600;
 }
 
 .results-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .results-title {
@@ -248,6 +320,90 @@ padding-bottom: 20px;
   padding: 2px 8px;
   font-weight: 500;
 }
+
+.result-section {
+  margin-top: 10px;
+}
+
+.result-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.recommended-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #dbe1ff;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--accent-soft-2) 100%);
+  padding: 12px;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.recommended-card:hover {
+  border-color: #c5ceff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(61, 76, 219, 0.10);
+}
+
+.recommended-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.recommended-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.recommended-card-outcome {
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.recommended-meta {
+  font-size: 10px;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.recommended-cta,
+.result-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.recommended-cta::after,
+.result-card-cta::after {
+  content: '→';
+  transition: transform .15s ease;
+}
+
+.recommended-card:hover .recommended-cta::after,
+.result-card:hover .result-card-cta::after {
+  transform: translateX(2px);
+}
+
 .result-grid {
   display: grid;
   gap: 6px;
@@ -291,28 +447,9 @@ padding-bottom: 20px;
 
 .result-card-outcome {
   font-size: 11px;
-  color: #6f7588;
   line-height: 1.42;
   color: var(--ink-2);
   margin-bottom: 6px;
-}
-
-.result-card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.result-card-cta::after {
-  content: '→';
-  transition: transform .15s ease;
-}
-
-.result-card:hover .result-card-cta::after {
-  transform: translateX(2px);
 }
 
 .format-block {
@@ -360,25 +497,13 @@ padding-bottom: 20px;
   gap: 4px;
 }
 
-.format-block-right {
-  text-align: right;
-  min-width: 56px;
-  padding-left: 6px;
-  border-left: 1px solid #edf0f7;
-}
-
-.format-big-num {
-  font-size: 17px;
-  line-height: 1;
-  color: #8a91c7;
-  font-weight: 500;
-}
-
-.format-big-label {
-  margin-top: 2px;
-  font-size: 8px;
-  color: #9aa0b4;
-  line-height: 1.35;
+.empty-state {
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 11px;
+  color: var(--ink-2);
+  background: #fcfcfe;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -387,6 +512,7 @@ padding-bottom: 20px;
     transition: none !important;
   }
 }
+
 .fade-scroll {
   position: relative;
 }
@@ -415,7 +541,6 @@ padding-bottom: 20px;
   background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0));
 }
 
-  
 .scroll-area {
   position: relative;
   min-height: 0;
@@ -437,25 +562,38 @@ padding-bottom: 20px;
   <header class="header">
     <div class="header-eyebrow">Excel для финансистов</div>
     <h1>Найдите мастер-классы под свою задачу</h1>
-    <p class="header-sub">Выберите задачу, и навигатор покажет мастер-классы по работе в Excel с короткими видео и готовыми файлами.</p>
+    <p class="header-sub">Сначала выберите, что вам нужно сейчас, а затем уточните задачу. Навигатор подскажет, с какого мастер-класса лучше начать.</p>
     <div class="header-meta">
+      <div class="header-meta-item">3 сценария выбора</div>
+      <div class="header-meta-sep"></div>
       <div class="header-meta-item">9 типовых задач</div>
       <div class="header-meta-sep"></div>
       <div class="header-meta-item">31 мастер-класс</div>
-      <div class="header-meta-sep"></div>
-      <div class="header-meta-item">Для CFO и финансовых менеджеров</div>
     </div>
   </header>
 
   <main class="layout">
-    <section class="panel left-panel" aria-label="Направления">
-     <div class="scroll-area">
-  <div id="screen-1" class="grid fade-scroll" role="list"></div>
-</div>
+    <section class="panel left-panel" aria-label="Выбор задачи">
+      <div class="left-top">
+        <div class="left-eyebrow">Шаг 1</div>
+        <div class="left-title">Что вам нужно сейчас</div>
+        <div class="left-subtitle">Выберите сценарий, чтобы сузить подборку и быстрее найти подходящий мастер-класс.</div>
+        <div class="segmented" id="scenario-tabs"></div>
+      </div>
+
+      <div class="left-top" style="margin-bottom: 0;">
+        <div class="left-eyebrow">Шаг 2</div>
+        <div class="left-title">Уточните задачу</div>
+      </div>
+
+      <div class="scroll-area">
+        <div id="screen-1" class="grid fade-scroll" role="list"></div>
+      </div>
     </section>
 
     <section class="panel right-panel" aria-live="polite">
       <div class="s2-eyebrow">Что поможет решить задачу</div>
+      <div class="context-chip" id="context-chip">Все задачи</div>
       <h2 class="s2-title" id="s2-title"></h2>
       <p class="s2-subtitle" id="s2-subtitle"></p>
 
@@ -464,9 +602,9 @@ padding-bottom: 20px;
         <div class="results-count" id="results-count">—</div>
       </div>
 
-     <div class="scroll-area scroll-area-results">
-  <div class="result-grid fade-scroll" id="results"></div>
-</div>
+      <div class="scroll-area scroll-area-results">
+        <div class="result-grid fade-scroll" id="results"></div>
+      </div>
 
       <div class="format-block" aria-label="Формат мастер-класса">
         <div>
@@ -479,145 +617,456 @@ padding-bottom: 20px;
             <div class="format-item"><span>⚡</span>Практические примеры</div>
           </div>
         </div>
-
       </div>
     </section>
   </main>
 </div>
 
 <script>
+const scenarios = [
+  { id: 'all', label: 'Все задачи' },
+  { id: 'prepare', label: 'Подготовить данные' },
+  { id: 'calculate', label: 'Рассчитать и проверить' },
+  { id: 'analyze', label: 'Проанализировать и показать' }
+];
+
 const data = [
-  { title:"Ускорить работу в Excel и навести порядок в файлах", icon:"⚡", desc:"Excel работает медленно, а большие файлы и сложные таблицы мешают работать быстрее", results:[
-      {name:"Техника работы с файлами", text:"Быстрее находите нужные файлы и снижаете риск ошибок", url:"https://1fd.ru/#/document/16/136947/", videos:"37 видео"},
-      {name:"Настройка Excel", text:"Ускоряете работу в Excel", url:"https://1fd.ru/#/document/16/189806/",videos:"25 видео"},
-      {name:"Большие таблицы", text:"Быстрее работаете с большими таблицами", url:"https://1fd.ru/#/document/16/128449/",videos:"26 видео"}
+  {
+    id: 'files',
+    scenarioIds: ['all', 'prepare'],
+    title: "Ускорить работу в Excel и навести порядок в файлах",
+    icon: "⚡",
+    desc: "Excel работает медленно, а большие файлы и сложные таблицы мешают работать быстрее",
+    recommended: {
+      name: "Настройка Excel",
+      text: "Ускоряете работу в Excel",
+      url: "https://1fd.ru/#/document/16/189806/",
+      videos: "25 видео"
+    },
+    results: [
+      {
+        name: "Техника работы с файлами",
+        text: "Быстрее находите нужные файлы и снижаете риск ошибок",
+        url: "https://1fd.ru/#/document/16/136947/",
+        videos: "37 видео"
+      },
+      {
+        name: "Большие таблицы",
+        text: "Быстрее работаете с большими таблицами",
+        url: "https://1fd.ru/#/document/16/128449/",
+        videos: "26 видео"
+      }
     ]
   },
-  { title:"Защитить данные и снизить риск ошибок", icon:"🛡️", desc:"Чужие правки и ошибки ввода могут испортить расчеты", results:[
-      {name:"Защита данных", text:"Защищаете данные от случайных и нежелательных правок", url:"https://1fd.ru/#/document/16/127083/",videos:"18 видео"},
-      {name:"Проверка данных", text:"Снижаете риск ошибок при вводе данных", url:"https://1fd.ru/#/document/16/202603/",videos:"16 видео"}
+  {
+    id: 'protect',
+    scenarioIds: ['all', 'prepare'],
+    title: "Защитить данные и снизить риск ошибок",
+    icon: "🛡️",
+    desc: "Чужие правки и ошибки ввода могут испортить расчеты",
+    recommended: {
+      name: "Проверка данных",
+      text: "Снижаете риск ошибок при вводе данных",
+      url: "https://1fd.ru/#/document/16/202603/",
+      videos: "16 видео"
+    },
+    results: [
+      {
+        name: "Защита данных",
+        text: "Защищаете данные от случайных и нежелательных правок",
+        url: "https://1fd.ru/#/document/16/127083/",
+        videos: "18 видео"
+      },
+      {
+        name: "Выпадающие списки",
+        text: "Ускоряете ввод данных и снижаете риск ошибок",
+        url: "https://1fd.ru/#/document/16/125130/",
+        videos: "19 видео"
+      }
     ]
   },
-  { title:"Подготовить и очистить данные", icon:"📂", desc:"В таблицах есть дубли, неверные форматы и текст вместо чисел", results:[
-      {name:"Импорт и экспорт", text:"Быстро загружаете и выгружаете данные", url:"https://1fd.ru/#/document/16/136741/",videos:"17 видео"},
-      {name:"Преобразование данных", text:"Приводите данные к нужному виду без ручной правки", url:"https://1fd.ru/#/document/16/127964/",videos:"38 видео"},
-      {name:"Работа с текстом", text:"Очищаете и преобразуете текстовые данные", url:"https://1fd.ru/#/document/16/136535/",videos:"35 видео"},
-      {name:"Удаление повторов", text:"Быстро находите и удаляете дубли", url:"https://1fd.ru/#/document/16/126496/",videos:"8 видео"},
-      {name:"Фильтры и сортировка", text:"Находите нужные строки мгновенно", url:"https://1fd.ru/#/document/16/126123/",videos:"16 видео"}
+  {
+    id: 'clean',
+    scenarioIds: ['all', 'prepare'],
+    title: "Подготовить и очистить данные",
+    icon: "📂",
+    desc: "В таблицах есть дубли, неверные форматы и текст вместо чисел",
+    recommended: {
+      name: "Преобразование данных",
+      text: "Приводите данные к нужному виду без ручной правки",
+      url: "https://1fd.ru/#/document/16/127964/",
+      videos: "38 видео"
+    },
+    results: [
+      {
+        name: "Импорт и экспорт",
+        text: "Быстро загружаете и выгружаете данные",
+        url: "https://1fd.ru/#/document/16/136741/",
+        videos: "17 видео"
+      },
+      {
+        name: "Работа с текстом",
+        text: "Очищаете и преобразуете текстовые данные",
+        url: "https://1fd.ru/#/document/16/136535/",
+        videos: "35 видео"
+      },
+      {
+        name: "Удаление повторов",
+        text: "Быстро находите и удаляете дубли",
+        url: "https://1fd.ru/#/document/16/126496/",
+        videos: "8 видео"
+      },
+      {
+        name: "Фильтры и сортировка",
+        text: "Находите нужные строки мгновенно",
+        url: "https://1fd.ru/#/document/16/126123/",
+        videos: "16 видео"
+      }
     ]
   },
-  { title:"Автоматизировать повторяющиеся задачи", icon:"🔁", desc:"Одни и те же действия приходится повторять вручную", results:[
-      {name:"Power Query", text:"Автоматизируете подготовку и обновление данных", url:"https://1fd.ru/#/document/16/202623/",videos:"5 видео"},
-      {name:"Генерация данных", text:"Быстро создаете тестовые и рабочие наборы данных", url:"https://1fd.ru/#/document/16/202714/",videos:"4 видео"}
+  {
+    id: 'automate',
+    scenarioIds: ['all', 'prepare'],
+    title: "Автоматизировать повторяющиеся задачи",
+    icon: "🔁",
+    desc: "Одни и те же действия приходится повторять вручную",
+    recommended: {
+      name: "Power Query",
+      text: "Автоматизируете подготовку и обновление данных",
+      url: "https://1fd.ru/#/document/16/202623/",
+      videos: "5 видео"
+    },
+    results: [
+      {
+        name: "Генерация данных",
+        text: "Создаете данные для проверки расчетов и шаблонов",
+        url: "https://1fd.ru/#/document/16/202714/",
+        videos: "4 видео"
+      }
     ]
   },
-  { title:"Быстро анализировать данные", icon:"📊", desc:"Нужно быстро понять, что стоит за цифрами", results:[
-      {name:"Сводные таблицы", text:"Быстро анализируете большие массивы данных", url:"https://1fd.ru/#/document/16/127765/",videos:"47 видео"},
-      {name:"Функции поиска", text:"Сопоставляете данные из разных таблиц без ручной сверки", url:"https://1fd.ru/#/document/16/125337/",videos:"18 видео"},
-      {name:"Выпадающие списки", text:"Ускоряете ввод данных и снижаете риск ошибок", url:"https://1fd.ru/#/document/16/125130/",videos:"19 видео"}
+  {
+    id: 'analyze-data',
+    scenarioIds: ['all', 'analyze'],
+    title: "Быстро анализировать данные",
+    icon: "📊",
+    desc: "Нужно быстро понять, что стоит за цифрами",
+    recommended: {
+      name: "Сводные таблицы",
+      text: "Быстро анализируете большие массивы данных",
+      url: "https://1fd.ru/#/document/16/127765/",
+      videos: "47 видео"
+    },
+    results: [
+      {
+        name: "Функции поиска",
+        text: "Сопоставляете данные из разных таблиц без ручной сверки",
+        url: "https://1fd.ru/#/document/16/125337/",
+        videos: "18 видео"
+      }
     ]
   },
-  { title:"Рассчитывать показатели без ошибок", icon:"🧮", desc:"В формулах появляются ошибки, а результаты приходится перепроверять", results:[
-      {name:"Правила работы с формулами", text:"Пишете формулы увереннее и реже ошибаетесь", url:"https://1fd.ru/#/document/16/126895/",videos:"43 видео"},
-      {name:"Ошибки в Excel", text:"Быстро находите и исправляете ошибки в расчетах", url:"https://1fd.ru/#/document/16/188998/",videos:"12 видео"},
-      {name:"Суммирование", text:"Считаете простые суммы и суммы с условиями", url:"https://1fd.ru/#/document/16/124898/",videos:"27 видео"},
-      {name:"Средние значения", text:"Корректно рассчитываете средние показатели", url:"https://1fd.ru/#/document/16/125435/",videos:"14 видео"},
-      {name:"Минимум и максимум", text:"Быстро находите минимальные и максимальные значения", url:"https://1fd.ru/#/document/16/128995/",videos:"7 видео"},
-      {name:"Проценты", text:"Рассчитываете проценты без ошибок", url:"https://1fd.ru/#/document/16/127560/",videos:"16 видео"},
-      {name:"Даты и периоды", text:"Быстро рассчитываете даты, сроки и периоды", url:"https://1fd.ru/#/document/16/124731/",videos:"47 видео"},
-      {name:"Время", text:"Работаете с временем и выполняете нужные расчеты", url:"https://1fd.ru/#/document/16/128221/",videos:"7 видео"}
+  {
+    id: 'calc',
+    scenarioIds: ['all', 'calculate'],
+    title: "Рассчитывать показатели без ошибок",
+    icon: "🧮",
+    desc: "В формулах появляются ошибки, а результаты приходится перепроверять",
+    recommended: {
+      name: "Правила работы с формулами",
+      text: "Пишете формулы увереннее и реже ошибаетесь",
+      url: "https://1fd.ru/#/document/16/126895/",
+      videos: "43 видео"
+    },
+    results: [
+      {
+        name: "Ошибки в Excel",
+        text: "Быстро находите и исправляете ошибки в расчетах",
+        url: "https://1fd.ru/#/document/16/188998/",
+        videos: "12 видео"
+      },
+      {
+        name: "Суммирование",
+        text: "Считаете простые суммы и суммы с условиями",
+        url: "https://1fd.ru/#/document/16/124898/",
+        videos: "27 видео"
+      },
+      {
+        name: "Средние значения",
+        text: "Корректно рассчитываете средние показатели",
+        url: "https://1fd.ru/#/document/16/125435/",
+        videos: "14 видео"
+      },
+      {
+        name: "Минимум и максимум",
+        text: "Быстро находите минимальные и максимальные значения",
+        url: "https://1fd.ru/#/document/16/128995/",
+        videos: "7 видео"
+      },
+      {
+        name: "Проценты",
+        text: "Рассчитываете проценты без ошибок",
+        url: "https://1fd.ru/#/document/16/127560/",
+        videos: "16 видео"
+      },
+      {
+        name: "Даты и периоды",
+        text: "Быстро рассчитываете даты, сроки и периоды",
+        url: "https://1fd.ru/#/document/16/124731/",
+        videos: "47 видео"
+      },
+      {
+        name: "Время",
+        text: "Работаете со временем и выполняете нужные расчеты",
+        url: "https://1fd.ru/#/document/16/128221/",
+        videos: "7 видео"
+      }
     ]
   },
-  { title:"Выполнять финансовые расчеты в Excel", icon:"💰", desc:"Нужно рассчитать кредиты, инвестиции или амортизацию", results:[
-      {name:"Кредиты и депозиты", text:"Рассчитываете проценты и графики выплат", url:"https://1fd.ru/#/document/16/129233/",videos:"5 видео"},
-      {name:"Инвестпроекты", text:"Оцениваете эффективность проекта по ключевым показателям", url:"https://1fd.ru/#/document/16/202688/",videos:"6 видео"},
-      {name:"Амортизация", text:"Рассчитываете амортизацию разными способами", url:"https://1fd.ru/#/document/16/126255/",videos:"3 видео"}
+  {
+    id: 'finance',
+    scenarioIds: ['all', 'calculate'],
+    title: "Выполнять финансовые расчеты в Excel",
+    icon: "💰",
+    desc: "Нужно рассчитать кредиты, инвестиции или амортизацию",
+    recommended: {
+      name: "Инвестпроекты",
+      text: "Оцениваете эффективность проекта по ключевым показателям",
+      url: "https://1fd.ru/#/document/16/202688/",
+      videos: "6 видео"
+    },
+    results: [
+      {
+        name: "Кредиты и депозиты",
+        text: "Рассчитываете проценты и графики выплат",
+        url: "https://1fd.ru/#/document/16/129233/",
+        videos: "5 видео"
+      },
+      {
+        name: "Амортизация",
+        text: "Рассчитываете амортизацию разными способами",
+        url: "https://1fd.ru/#/document/16/126255/",
+        videos: "3 видео"
+      }
     ]
   },
-  { title:"Строить прогнозы и проводить план-факт анализ", icon:"📅", desc:"Нужно оценить сценарии, построить прогноз или сравнить план с фактом", results:[
-      {name:"Прогнозы", text:"Строите прогнозы на основе данных", url:"https://1fd.ru/#/document/16/126723/",videos:"13 видео"},
-      {name:"План-факт анализ", text:"Сравниваете план и факт по ключевым показателям", url:"https://1fd.ru/#/document/16/127295/",videos:"19 видео"},
-      {name:"Сценарный анализ", text:"Сравниваете несколько сценариев развития", url:"https://1fd.ru/#/document/16/128714/",videos:"10 видео"}
+  {
+    id: 'forecast',
+    scenarioIds: ['all', 'calculate', 'analyze'],
+    title: "Строить прогнозы и проводить план-факт анализ",
+    icon: "📅",
+    desc: "Нужно оценить сценарии, построить прогноз или сравнить план с фактом",
+    recommended: {
+      name: "План-факт анализ",
+      text: "Сравниваете план и факт по ключевым показателям",
+      url: "https://1fd.ru/#/document/16/127295/",
+      videos: "19 видео"
+    },
+    results: [
+      {
+        name: "Прогнозы",
+        text: "Строите прогнозы на основе данных",
+        url: "https://1fd.ru/#/document/16/126723/",
+        videos: "13 видео"
+      },
+      {
+        name: "Сценарный анализ",
+        text: "Сравниваете несколько сценариев развития",
+        url: "https://1fd.ru/#/document/16/128714/",
+        videos: "10 видео"
+      }
     ]
   },
-  { title:"Подготовить понятный отчет", icon:"📈", desc:"Нужно представить данные так, чтобы руководитель быстро понял главное", results:[
-      {name:"Визуализация отчетов", text:"Делаете отчеты более понятными и наглядными", url:"https://1fd.ru/#/document/16/129697/",videos:"28 видео"},
-      {name:"Графики и диаграммы", text:"Показываете данные наглядно", url:"https://1fd.ru/#/document/16/138163/",videos:"64 видео"},
-      {name:"Условное форматирование", text:"Быстро выделяете важные показатели в таблице", url:"https://1fd.ru/#/document/16/183155/",videos:"27 видео"}
+  {
+    id: 'report',
+    scenarioIds: ['all', 'analyze'],
+    title: "Подготовить понятный отчет",
+    icon: "📈",
+    desc: "Нужно представить данные так, чтобы руководитель быстро понял главное",
+    recommended: {
+      name: "Визуализация отчетов",
+      text: "Делаете отчеты более понятными и наглядными",
+      url: "https://1fd.ru/#/document/16/129697/",
+      videos: "28 видео"
+    },
+    results: [
+      {
+        name: "Графики и диаграммы",
+        text: "Показываете данные наглядно",
+        url: "https://1fd.ru/#/document/16/138163/",
+        videos: "64 видео"
+      },
+      {
+        name: "Условное форматирование",
+        text: "Быстро выделяете важные показатели в таблице",
+        url: "https://1fd.ru/#/document/16/183155/",
+        videos: "27 видео"
+      }
     ]
   }
 ];
 
+const scenarioTabs = document.getElementById('scenario-tabs');
 const s1 = document.getElementById('screen-1');
 const resultsDiv = document.getElementById('results');
 const s2Title = document.getElementById('s2-title');
 const s2Subtitle = document.getElementById('s2-subtitle');
-
 const resultsCount = document.getElementById('results-count');
+const contextChip = document.getElementById('context-chip');
+
+let activeScenario = 'all';
+let activeItemId = null;
 let activeCard = null;
 
+function getScenarioLabel(id) {
+  const scenario = scenarios.find(item => item.id === id);
+  return scenario ? scenario.label : 'Все задачи';
+}
+
+function getVisibleItems() {
+  return data.filter(item => item.scenarioIds.includes(activeScenario));
+}
+
+function getItemById(id) {
+  return data.find(item => item.id === id);
+}
+
+function getTotalCount(item) {
+  return item.results.length + 1;
+}
+
+function createStandardCard(res) {
+  return `
+    <a class="result-card" href="${res.url}" target="_blank" rel="noopener noreferrer">
+      <div class="result-card-num">${res.videos}</div>
+      <h3>${res.name}</h3>
+      <div class="result-card-outcome">${res.text}</div>
+      <div class="result-card-cta">Открыть мастер-класс</div>
+    </a>
+  `;
+}
+
+function createRecommendedCard(res) {
+  return `
+    <div class="result-section">
+      <div class="result-section-label">Рекомендуем начать с этого</div>
+      <a class="recommended-card" href="${res.url}" target="_blank" rel="noopener noreferrer">
+        <div class="recommended-badge">Стартовый мастер-класс</div>
+        <h3>${res.name}</h3>
+        <div class="recommended-card-outcome">${res.text}</div>
+        <div class="recommended-meta">${res.videos}</div>
+        <div class="recommended-cta">Открыть мастер-класс</div>
+      </a>
+    </div>
+  `;
+}
+
+function createOtherSection(items) {
+  if (!items.length) return '';
+
+  return `
+    <div class="result-section">
+      <div class="result-section-label">Другие подходящие мастер-классы</div>
+      ${items.map(createStandardCard).join('')}
+    </div>
+  `;
+}
+
+function renderScenarioTabs() {
+  scenarioTabs.innerHTML = '';
+
+  scenarios.forEach((scenario) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `segment-btn${scenario.id === activeScenario ? ' active' : ''}`;
+    btn.textContent = scenario.label;
+
+    btn.addEventListener('click', () => {
+      if (activeScenario === scenario.id) return;
+      activeScenario = scenario.id;
+      ensureActiveItem();
+      renderScenarioTabs();
+      renderCards();
+      renderRight(getItemById(activeItemId));
+    });
+
+    scenarioTabs.appendChild(btn);
+  });
+}
+
+function ensureActiveItem() {
+  const visibleItems = getVisibleItems();
+  const currentVisible = visibleItems.some(item => item.id === activeItemId);
+
+  if (!currentVisible) {
+    activeItemId = visibleItems.length ? visibleItems[0].id : null;
+  }
+}
+
 function renderCards() {
-  data.forEach((item, index) => {
+  s1.innerHTML = '';
+  activeCard = null;
+
+  const visibleItems = getVisibleItems();
+
+  if (!visibleItems.length) {
+    s1.innerHTML = `<div class="empty-state">По выбранному сценарию пока нет доступных задач.</div>`;
+    return;
+  }
+
+  visibleItems.forEach((item) => {
     const card = document.createElement('button');
-    card.className = 'card';
+    card.className = `card${item.id === activeItemId ? ' active' : ''}`;
     card.type = 'button';
     card.setAttribute('role', 'listitem');
-    card.setAttribute('aria-label', `${item.title}. ${item.results.length} мастер-класса`);
+    card.setAttribute('aria-label', `${item.title}. ${getTotalCount(item)} мастер-классов`);
 
     card.innerHTML = `
       <div class="card-top">
         <div class="card-icon">${item.icon}</div>
-        <div class="card-count">${item.results.length}</div>
+        <div class="card-count">${getTotalCount(item)}</div>
       </div>
       <div class="card-title">${item.title}</div>
       <div class="card-desc">${item.desc}</div>
     `;
 
-    card.addEventListener('click', () => showScreen2(item, card));
-
-    if (index === 0) {
-      card.classList.add('active');
+    if (item.id === activeItemId) {
       activeCard = card;
     }
+
+    card.addEventListener('click', () => {
+      activeItemId = item.id;
+      renderCards();
+      renderRight(item);
+    });
 
     s1.appendChild(card);
   });
 }
 
 function renderRight(item) {
+  if (!item) return;
+
+  contextChip.textContent = getScenarioLabel(activeScenario);
   s2Title.textContent = item.title;
   s2Subtitle.textContent = item.desc;
- 
-  resultsCount.textContent = `Мастер-классов: ${item.results.length}`;
-resultsDiv.innerHTML = '';
+  resultsCount.textContent = `Мастер-классов: ${getTotalCount(item)}`;
 
-  item.results.forEach((res) => {
-    const card = document.createElement('a');
-    card.className = 'result-card';
-    card.href = res.url;
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-
-    card.innerHTML = `
-      <div class="result-card-num">${res.videos}</div>
-      <h3>${res.name}</h3>
-      <div class="result-card-outcome">${res.text}</div>
-      <div class="result-card-cta">Открыть мастер-класс</div>
-    `;
-
-    resultsDiv.appendChild(card);
-  });
+  resultsDiv.innerHTML = `
+    ${createRecommendedCard(item.recommended)}
+    ${createOtherSection(item.results)}
+  `;
 }
 
-function showScreen2(item, selectedCard) {
-  if (activeCard) activeCard.classList.remove('active');
-  selectedCard.classList.add('active');
-  activeCard = selectedCard;
-  renderRight(item);
+function init() {
+  activeItemId = data[0].id;
+  ensureActiveItem();
+  renderScenarioTabs();
+  renderCards();
+  renderRight(getItemById(activeItemId));
 }
 
-renderCards();
-renderRight(data[0]);
+init();
 </script>
 </body>
 </html>
