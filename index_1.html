@@ -19,12 +19,19 @@
   --accent-soft-2: #f7f8ff;
   --radius-lg: 16px;
   --radius-md: 12px;
-  --radius-sm: 10px;
+  --shadow-soft: 0 8px 24px rgba(18, 19, 26, 0.04);
+  --shadow-hover: 0 10px 26px rgba(61, 76, 219, 0.10);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+}
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
@@ -35,13 +42,18 @@ body {
 }
 
 .container {
-  max-width: 980px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 734px;
   height: 100%;
-  padding: 10px 14px;
+  margin: 0 auto;
+  padding: 8px 12px 10px;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 8px;
+}
+
+.header {
+  min-height: 0;
 }
 
 .header-eyebrow {
@@ -53,7 +65,7 @@ body {
   text-transform: uppercase;
   font-weight: 600;
   color: var(--accent);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .header-eyebrow::before {
@@ -64,22 +76,22 @@ body {
 }
 
 .header h1 {
-  font-size: clamp(22px, 2.4vw, 29px);
+  font-size: 26px;
   font-weight: 600;
-  line-height: 1.14;
-  margin-bottom: 6px;
+  line-height: 1.12;
   letter-spacing: -0.015em;
+  margin-bottom: 4px;
 }
 
 .header-sub {
-  max-width: 660px;
+  max-width: 560px;
   color: var(--ink-2);
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.38;
+  margin-bottom: 4px;
 }
 
 .header-meta {
-  margin-top: 6px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -99,41 +111,38 @@ body {
   background: #b8bfd4;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.98fr) minmax(0, 1.22fr);
-  gap: 8px;
-  min-height: 0;
-}
-
 .panel {
+  min-height: 0;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-}
-
-.left-panel {
-  padding: 10px;
-  min-height: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.right-panel {
-  padding: 10px;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+  box-shadow: var(--shadow-soft);
   overflow: hidden;
 }
 
-.left-top {
-  margin-bottom: 10px;
-  flex: 0 0 auto;
+.screen {
+  height: 100%;
+  display: none;
 }
 
-.left-eyebrow {
+.screen.active {
+  display: block;
+}
+
+.screen-inner {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 14px 16px 12px;
+  gap: 12px;
+}
+
+.screen-top {
+  min-height: 0;
+}
+
+.screen-kicker {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: .1em;
@@ -142,147 +151,247 @@ body {
   font-weight: 600;
 }
 
-.left-title {
-  font-size: 14px;
+.screen-title {
+  font-size: 22px;
+  line-height: 1.18;
   font-weight: 600;
-  line-height: 1.3;
-  margin-bottom: 4px;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+  margin-bottom: 6px;
 }
 
-.left-subtitle {
-  font-size: 11px;
+.screen-subtitle {
+  font-size: 13px;
   color: var(--ink-2);
   line-height: 1.45;
-  margin-bottom: 8px;
+  max-width: 58ch;
 }
 
-.segmented {
+.screen-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.segment-btn {
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border: 1px solid var(--line);
   background: #fff;
   color: var(--ink-2);
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 11px;
+  padding: 7px 11px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color .2s ease, background-color .2s ease, color .2s ease, transform .2s ease;
+  transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
 }
 
-.segment-btn:hover {
+.back-btn:hover {
   border-color: var(--line-strong);
+  background: #fafbff;
   transform: translateY(-1px);
 }
 
-.segment-btn.active {
-  border-color: #c8d0ff;
-  background: #f8f9ff;
-  color: var(--accent);
+.back-btn::before {
+  content: '←';
+  line-height: 1;
+}
+
+.step-indicator {
+  font-size: 11px;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.scroll-area {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
 }
 
 .grid {
   display: grid;
-  gap: 6px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 2px;
-  position: relative;
-  padding-top: 8px;
-  padding-bottom: 20px;
+  gap: 12px;
+  align-items: stretch;
 }
 
-.card {
+.scenario-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.task-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scenario-card,
+.task-card,
+.result-card,
+.recommended-card {
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-md);
+  background: #fff;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.scenario-card,
+.task-card {
   width: 100%;
   border: 1px solid var(--line);
-  background: #fff;
-  border-radius: var(--radius-md);
-  padding: 9px;
   text-align: left;
   cursor: pointer;
-  transition: border-color .2s ease, background-color .2s ease, transform .2s ease;
 }
 
-.card:hover {
-  border-color: var(--line-strong);
-  transform: translateY(-1px);
+.scenario-card:hover,
+.task-card:hover,
+.result-card:hover,
+.recommended-card:hover {
+  transform: translateY(-2px);
 }
 
-.card.active {
-  border-color: #c8d0ff;
-  background: #f8f9ff;
-}
-
-.card:focus-visible,
+.scenario-card:focus-visible,
+.task-card:focus-visible,
 .result-card:focus-visible,
 .recommended-card:focus-visible,
-.segment-btn:focus-visible {
+.back-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
+/* Экран 1 */
+.scenario-card {
+  padding: 16px 14px;
+  min-height: 210px;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0;
 }
 
-.card-icon { font-size: 16px; }
+.scenario-card:hover {
+  border-color: #cad2ff;
+  box-shadow: var(--shadow-hover);
+}
 
-.card-count {
+.scenario-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.scenario-card h3 {
+  font-size: 16px;
+  line-height: 1.26;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.scenario-card p {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  min-height: 72px;
+}
+
+.scenario-cta {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.scenario-cta::after {
+  content: '→';
+  transition: transform .15s ease;
+}
+
+.scenario-card:hover .scenario-cta::after {
+  transform: translateX(2px);
+}
+
+/* Экран 2 */
+.task-card {
+  padding: 12px;
+  min-height: 168px;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+}
+
+.task-card:hover {
+  border-color: #cfd6f6;
+  box-shadow: 0 8px 20px rgba(61, 76, 219, 0.08);
+}
+
+.task-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.task-icon {
+  font-size: 18px;
+}
+
+.task-count {
   font-size: 11px;
   color: var(--ink-3);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 2px 8px;
   background: #f8f9fc;
+  white-space: nowrap;
 }
 
-.card-title {
-  font-size: 12px;
+.task-card h3 {
+  font-size: 13px;
+  line-height: 1.34;
   font-weight: 600;
-  color: var(--ink);
-  line-height: 1.35;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
-.card-desc {
+.task-card p {
   font-size: 11px;
   color: var(--ink-2);
   line-height: 1.5;
 }
 
-.s2-eyebrow {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--ink-3);
-  margin-bottom: 3px;
+.task-cta {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--accent);
   font-weight: 600;
 }
 
-.s2-title {
-  font-size: clamp(18px, 1.9vw, 22px);
-  line-height: 1.2;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--ink);
-  letter-spacing: -0.012em;
+.task-cta::after {
+  content: '→';
+  transition: transform .15s ease;
 }
 
-.s2-subtitle {
-  font-size: 12px;
-  color: var(--ink-2);
-  margin-bottom: 12px;
-  max-width: 64ch;
+.task-card:hover .task-cta::after {
+  transform: translateX(2px);
 }
 
+/* Экран 3 */
 .context-chip {
   display: inline-flex;
   align-items: center;
@@ -302,7 +411,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .results-title {
@@ -319,10 +429,15 @@ body {
   border-radius: 999px;
   padding: 2px 8px;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .result-section {
   margin-top: 10px;
+}
+
+.result-section:first-child {
+  margin-top: 0;
 }
 
 .result-section-label {
@@ -336,18 +451,13 @@ body {
 
 .recommended-card {
   display: block;
-  text-decoration: none;
-  color: inherit;
   border: 1px solid #dbe1ff;
-  border-radius: var(--radius-md);
   background: linear-gradient(180deg, var(--accent-soft) 0%, var(--accent-soft-2) 100%);
-  padding: 12px;
-  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  padding: 14px;
 }
 
 .recommended-card:hover {
   border-color: #c5ceff;
-  transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(61, 76, 219, 0.10);
 }
 
@@ -364,14 +474,15 @@ body {
 }
 
 .recommended-card h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-bottom: 6px;
+  line-height: 1.28;
 }
 
 .recommended-card-outcome {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-2);
   line-height: 1.45;
   margin-bottom: 8px;
@@ -406,28 +517,17 @@ body {
 
 .result-grid {
   display: grid;
-  gap: 6px;
-  min-height: 100%;
-  padding-right: 2px;
-  align-content: start;
-  padding-top: 4px;
-  padding-bottom: 20px;
+  gap: 8px;
 }
 
 .result-card {
   display: block;
-  text-decoration: none;
-  color: inherit;
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: #fff;
   padding: 12px;
-  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
 .result-card:hover {
   border-color: #cfd6f6;
-  transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(61, 76, 219, 0.08);
 }
 
@@ -443,6 +543,8 @@ body {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
+  line-height: 1.32;
+  margin-bottom: 4px;
 }
 
 .result-card-outcome {
@@ -452,15 +554,11 @@ body {
   margin-bottom: 6px;
 }
 
-.format-block {
-  border: 1px solid #edf0f7;
+.footer-info {
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 10px;
-  background: #fdfdff;
-  padding: 6px 8px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 6px;
-  margin-top: 8px;
+  padding: 8px 10px;
 }
 
 .format-block-label {
@@ -468,15 +566,15 @@ body {
   letter-spacing: .1em;
   text-transform: uppercase;
   color: #9aa0b4;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   font-weight: 600;
 }
 
-.format-block h3 {
-  font-size: 10px;
+.footer-info h3 {
+  font-size: 11px;
   color: #757c90;
   font-weight: 500;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .format-items {
@@ -497,63 +595,11 @@ body {
   gap: 4px;
 }
 
-.empty-state {
-  border: 1px dashed var(--line-strong);
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  font-size: 11px;
-  color: var(--ink-2);
-  background: #fcfcfe;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;
   }
-}
-
-.fade-scroll {
-  position: relative;
-}
-
-.fade-scroll::before,
-.fade-scroll::after {
-  content: '';
-  position: sticky;
-  left: 0;
-  right: 0;
-  height: 18px;
-  pointer-events: none;
-  display: block;
-  z-index: 3;
-}
-
-.fade-scroll::before {
-  top: 0;
-  margin-bottom: -18px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.96), rgba(255,255,255,0));
-}
-
-.fade-scroll::after {
-  bottom: 0;
-  margin-top: -18px;
-  background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0));
-}
-
-.scroll-area {
-  position: relative;
-  min-height: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-.scroll-area-results {
-  position: relative;
-  flex: 1 1 0;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 </style>
 </head>
@@ -572,62 +618,98 @@ body {
     </div>
   </header>
 
-  <main class="layout">
-    <section class="panel left-panel" aria-label="Выбор задачи">
-      <div class="left-top">
-        <div class="left-eyebrow">Шаг 1</div>
-        <div class="left-title">Что вам нужно сейчас</div>
-        <div class="left-subtitle">Выберите сценарий, чтобы сузить подборку и быстрее найти подходящий мастер-класс.</div>
-        <div class="segmented" id="scenario-tabs"></div>
-      </div>
+  <main class="panel">
 
-      <div class="left-top" style="margin-bottom: 0;">
-        <div class="left-eyebrow">Шаг 2</div>
-        <div class="left-title">Уточните задачу</div>
-      </div>
+    <section class="screen active" id="screen-step-1" aria-label="Выбор сценария">
+      <div class="screen-inner">
+        <div class="screen-top">
+          <div class="screen-kicker">Шаг 1</div>
+          <h2 class="screen-title">Что вам нужно сейчас</h2>
+          <p class="screen-subtitle">Выберите сценарий, чтобы сузить подборку и быстрее найти подходящий мастер-класс.</p>
+        </div>
 
-      <div class="scroll-area">
-        <div id="screen-1" class="grid fade-scroll" role="list"></div>
-      </div>
-    </section>
-
-    <section class="panel right-panel" aria-live="polite">
-      <div class="s2-eyebrow">Что поможет решить задачу</div>
-      <div class="context-chip" id="context-chip">Все задачи</div>
-      <h2 class="s2-title" id="s2-title"></h2>
-      <p class="s2-subtitle" id="s2-subtitle"></p>
-
-      <div class="results-header">
-        <div class="results-title">Что посмотреть по этой задаче</div>
-        <div class="results-count" id="results-count">—</div>
-      </div>
-
-      <div class="scroll-area scroll-area-results">
-        <div class="result-grid fade-scroll" id="results"></div>
-      </div>
-
-      <div class="format-block" aria-label="Формат мастер-класса">
-        <div>
-          <div class="format-block-label">Формат мастер-класса</div>
-          <h3>Смотрите и сразу применяйте в работе</h3>
-          <div class="format-items">
-            <div class="format-item"><span>🎥</span>Видео 2–5 минут</div>
-            <div class="format-item"><span>📊</span>Готовый Excel-файл</div>
-            <div class="format-item"><span>📝</span>Разбор формул</div>
-            <div class="format-item"><span>⚡</span>Практические примеры</div>
-          </div>
+        <div class="scroll-area">
+          <div class="grid scenario-grid" id="scenario-grid"></div>
         </div>
       </div>
     </section>
+
+    <section class="screen" id="screen-step-2" aria-label="Выбор задачи">
+      <div class="screen-inner">
+        <div class="screen-top">
+          <div class="screen-actions">
+            <button class="back-btn" type="button" id="back-to-step-1">Назад</button>
+            <div class="step-indicator">Шаг 2 из 3</div>
+          </div>
+
+          <div class="screen-kicker">Шаг 2</div>
+          <h2 class="screen-title" id="task-screen-title"></h2>
+          <p class="screen-subtitle">Уточните задачу, чтобы получить подходящие мастер-классы.</p>
+        </div>
+
+        <div class="scroll-area">
+          <div class="grid task-grid" id="task-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-step-3" aria-label="Результаты">
+      <div class="screen-inner">
+        <div class="screen-top">
+          <div class="screen-actions">
+            <button class="back-btn" type="button" id="back-to-step-2">Назад</button>
+            <div class="step-indicator">Шаг 3 из 3</div>
+          </div>
+
+          <div class="screen-kicker">Что поможет решить задачу</div>
+          <div class="context-chip" id="context-chip">—</div>
+          <h2 class="screen-title" id="result-title"></h2>
+          <p class="screen-subtitle" id="result-subtitle"></p>
+
+          <div class="results-header">
+            <div class="results-title">Что посмотреть по этой задаче</div>
+            <div class="results-count" id="results-count">—</div>
+          </div>
+        </div>
+
+        <div class="scroll-area" id="result-scroll"></div>
+      </div>
+    </section>
+
   </main>
+
+  <footer class="footer-info" aria-label="Формат мастер-класса">
+    <div class="format-block-label">Формат мастер-класса</div>
+    <h3>Смотрите и сразу применяйте в работе</h3>
+    <div class="format-items">
+      <div class="format-item"><span>🎥</span>Видео 2–5 минут</div>
+      <div class="format-item"><span>📊</span>Готовый Excel-файл</div>
+      <div class="format-item"><span>📝</span>Разбор формул</div>
+      <div class="format-item"><span>⚡</span>Практические примеры</div>
+    </div>
+  </footer>
 </div>
 
 <script>
 const scenarios = [
-  { id: 'all', label: 'Все задачи' },
-  { id: 'prepare', label: 'Подготовить данные' },
-  { id: 'calculate', label: 'Рассчитать и проверить' },
-  { id: 'analyze', label: 'Проанализировать и показать' }
+  {
+    id: 'prepare',
+    label: 'Подготовить данные',
+    icon: '📂',
+    desc: 'Подготовка файлов, очистка таблиц, контроль данных и автоматизация повторяющихся действий'
+  },
+  {
+    id: 'calculate',
+    label: 'Рассчитать и проверить',
+    icon: '🧮',
+    desc: 'Формулы, показатели, финансовые расчеты и проверка корректности результатов'
+  },
+  {
+    id: 'analyze',
+    label: 'Проанализировать и показать',
+    icon: '📊',
+    desc: 'Анализ данных, прогнозы, план-факт и подготовка понятных отчетов'
+  }
 ];
 
 const data = [
@@ -906,44 +988,107 @@ const data = [
   }
 ];
 
-const scenarioTabs = document.getElementById('scenario-tabs');
-const s1 = document.getElementById('screen-1');
-const resultsDiv = document.getElementById('results');
-const s2Title = document.getElementById('s2-title');
-const s2Subtitle = document.getElementById('s2-subtitle');
-const resultsCount = document.getElementById('results-count');
+const screenStep1 = document.getElementById('screen-step-1');
+const screenStep2 = document.getElementById('screen-step-2');
+const screenStep3 = document.getElementById('screen-step-3');
+
+const scenarioGrid = document.getElementById('scenario-grid');
+const taskGrid = document.getElementById('task-grid');
+const taskScreenTitle = document.getElementById('task-screen-title');
+
 const contextChip = document.getElementById('context-chip');
+const resultTitle = document.getElementById('result-title');
+const resultSubtitle = document.getElementById('result-subtitle');
+const resultsCount = document.getElementById('results-count');
+const resultScroll = document.getElementById('result-scroll');
 
-let activeScenario = 'all';
+const backToStep1 = document.getElementById('back-to-step-1');
+const backToStep2 = document.getElementById('back-to-step-2');
+
+let activeScenario = null;
 let activeItemId = null;
-let activeCard = null;
 
-function getScenarioLabel(id) {
-  const scenario = scenarios.find(item => item.id === id);
-  return scenario ? scenario.label : 'Все задачи';
-}
-
-function getVisibleItems() {
-  return data.filter(item => item.scenarioIds.includes(activeScenario));
+function getScenarioById(id) {
+  return scenarios.find(item => item.id === id);
 }
 
 function getItemById(id) {
   return data.find(item => item.id === id);
 }
 
+function getVisibleItems(scenarioId) {
+  return data.filter(item => item.scenarioIds.includes(scenarioId));
+}
+
 function getTotalCount(item) {
   return item.results.length + 1;
 }
 
-function createStandardCard(res) {
-  return `
-    <a class="result-card" href="${res.url}" target="_blank" rel="noopener noreferrer">
-      <div class="result-card-num">${res.videos}</div>
-      <h3>${res.name}</h3>
-      <div class="result-card-outcome">${res.text}</div>
-      <div class="result-card-cta">Открыть мастер-класс</div>
-    </a>
-  `;
+function showStep(step) {
+  screenStep1.classList.toggle('active', step === 1);
+  screenStep2.classList.toggle('active', step === 2);
+  screenStep3.classList.toggle('active', step === 3);
+}
+
+function renderScenarioCards() {
+  scenarioGrid.innerHTML = '';
+
+  scenarios.forEach((scenario) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'scenario-card';
+    card.setAttribute('aria-label', scenario.label);
+
+    card.innerHTML = `
+      <div class="scenario-icon">${scenario.icon}</div>
+      <h3>${scenario.label}</h3>
+      <p>${scenario.desc}</p>
+      <div class="scenario-cta">Выбрать</div>
+    `;
+
+    card.addEventListener('click', () => {
+      activeScenario = scenario.id;
+      const items = getVisibleItems(activeScenario);
+      activeItemId = items.length ? items[0].id : null;
+      renderTaskCards();
+      showStep(2);
+    });
+
+    scenarioGrid.appendChild(card);
+  });
+}
+
+function renderTaskCards() {
+  taskGrid.innerHTML = '';
+  const scenario = getScenarioById(activeScenario);
+  const items = getVisibleItems(activeScenario);
+
+  taskScreenTitle.textContent = scenario ? scenario.label : '';
+
+  items.forEach((item) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'task-card';
+    card.setAttribute('aria-label', `${item.title}. ${getTotalCount(item)} мастер-классов`);
+
+    card.innerHTML = `
+      <div class="task-top">
+        <div class="task-icon">${item.icon}</div>
+        <div class="task-count">${getTotalCount(item)}</div>
+      </div>
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <div class="task-cta">Посмотреть подборку</div>
+    `;
+
+    card.addEventListener('click', () => {
+      activeItemId = item.id;
+      renderResults();
+      showStep(3);
+    });
+
+    taskGrid.appendChild(card);
+  });
 }
 
 function createRecommendedCard(res) {
@@ -961,112 +1106,57 @@ function createRecommendedCard(res) {
   `;
 }
 
+function createStandardCard(res) {
+  return `
+    <a class="result-card" href="${res.url}" target="_blank" rel="noopener noreferrer">
+      <div class="result-card-num">${res.videos}</div>
+      <h3>${res.name}</h3>
+      <div class="result-card-outcome">${res.text}</div>
+      <div class="result-card-cta">Открыть мастер-класс</div>
+    </a>
+  `;
+}
+
 function createOtherSection(items) {
   if (!items.length) return '';
 
   return `
     <div class="result-section">
       <div class="result-section-label">Другие подходящие мастер-классы</div>
-      ${items.map(createStandardCard).join('')}
+      <div class="result-grid">
+        ${items.map(createStandardCard).join('')}
+      </div>
     </div>
   `;
 }
 
-function renderScenarioTabs() {
-  scenarioTabs.innerHTML = '';
+function renderResults() {
+  const item = getItemById(activeItemId);
+  const scenario = getScenarioById(activeScenario);
 
-  scenarios.forEach((scenario) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = `segment-btn${scenario.id === activeScenario ? ' active' : ''}`;
-    btn.textContent = scenario.label;
-
-    btn.addEventListener('click', () => {
-      if (activeScenario === scenario.id) return;
-      activeScenario = scenario.id;
-      ensureActiveItem();
-      renderScenarioTabs();
-      renderCards();
-      renderRight(getItemById(activeItemId));
-    });
-
-    scenarioTabs.appendChild(btn);
-  });
-}
-
-function ensureActiveItem() {
-  const visibleItems = getVisibleItems();
-  const currentVisible = visibleItems.some(item => item.id === activeItemId);
-
-  if (!currentVisible) {
-    activeItemId = visibleItems.length ? visibleItems[0].id : null;
-  }
-}
-
-function renderCards() {
-  s1.innerHTML = '';
-  activeCard = null;
-
-  const visibleItems = getVisibleItems();
-
-  if (!visibleItems.length) {
-    s1.innerHTML = `<div class="empty-state">По выбранному сценарию пока нет доступных задач.</div>`;
-    return;
-  }
-
-  visibleItems.forEach((item) => {
-    const card = document.createElement('button');
-    card.className = `card${item.id === activeItemId ? ' active' : ''}`;
-    card.type = 'button';
-    card.setAttribute('role', 'listitem');
-    card.setAttribute('aria-label', `${item.title}. ${getTotalCount(item)} мастер-классов`);
-
-    card.innerHTML = `
-      <div class="card-top">
-        <div class="card-icon">${item.icon}</div>
-        <div class="card-count">${getTotalCount(item)}</div>
-      </div>
-      <div class="card-title">${item.title}</div>
-      <div class="card-desc">${item.desc}</div>
-    `;
-
-    if (item.id === activeItemId) {
-      activeCard = card;
-    }
-
-    card.addEventListener('click', () => {
-      activeItemId = item.id;
-      renderCards();
-      renderRight(item);
-    });
-
-    s1.appendChild(card);
-  });
-}
-
-function renderRight(item) {
   if (!item) return;
 
-  contextChip.textContent = getScenarioLabel(activeScenario);
-  s2Title.textContent = item.title;
-  s2Subtitle.textContent = item.desc;
+  contextChip.textContent = scenario ? scenario.label : '';
+  resultTitle.textContent = item.title;
+  resultSubtitle.textContent = item.desc;
   resultsCount.textContent = `Мастер-классов: ${getTotalCount(item)}`;
 
-  resultsDiv.innerHTML = `
+  resultScroll.innerHTML = `
     ${createRecommendedCard(item.recommended)}
     ${createOtherSection(item.results)}
   `;
 }
 
-function init() {
-  activeItemId = data[0].id;
-  ensureActiveItem();
-  renderScenarioTabs();
-  renderCards();
-  renderRight(getItemById(activeItemId));
-}
+backToStep1.addEventListener('click', () => {
+  showStep(1);
+});
 
-init();
+backToStep2.addEventListener('click', () => {
+  showStep(2);
+});
+
+renderScenarioCards();
+showStep(1);
 </script>
 </body>
 </html>
